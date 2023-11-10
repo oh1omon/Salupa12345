@@ -1,5 +1,5 @@
 // This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// learn more about it in the docs https://pris.ly/d/prisma-schema
 
 generator client {
     provider = "prisma-client-js"
@@ -11,7 +11,36 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Example {
-  id          Int       @id @default(autoincrement())
-  name        String
+model Player {
+  id        Int       @id @default(autoincrement())
+  username  String
+  isBot     Boolean
+  messages  Message[]
+  games     Game[]   @relation("PlayersInGame")
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  content    String
+  timestamp  Int
+  sender     Player   @relation(fields: [senderId], references: [id])
+  senderId   Int
+  game       Game     @relation(fields: [gameId], references: [id])
+  gameId     Int
+}
+
+
+model Game {
+  id            Int      @id @default(autoincrement())
+  isGuessMade   Boolean
+  isCorrectGuess Boolean?
+  players       Player[]  @relation("PlayersInGame")
+  messages      Message[]
+}
+
+model Bot {
+  id             Int      @id @default(autoincrement())
+  name           String
+  avatar         String
+  isChatEnabled  Boolean
 }

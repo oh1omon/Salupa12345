@@ -12,7 +12,9 @@ export const env = createEnv({
         NODE_ENV: z
             .string(),
         SERVER_URL: z
-        .string()
+        .string(),
+        OPEN_AI_KEY: z.string(),
+        OPEN_AI_PROMPT: z.string()
     },
 
 
@@ -25,5 +27,8 @@ export const env = createEnv({
         NODE_ENV: process.env.NODE_ENV,
         SERVER_URL:
             process.env.SERVER_URL,
+        OPEN_AI_KEY: process.env.OPEN_AI_KEY,
+        OPEN_AI_PROMPT: process.env.OPEN_AI_PROMPT
+
     },
 })

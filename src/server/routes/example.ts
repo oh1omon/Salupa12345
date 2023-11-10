@@ -2,9 +2,10 @@ import { z } from 'zod';
 import { publicProcedure, router } from '../trpc';
 
 export const exampleRouter = router({
-    getDestinations: publicProcedure
+    getExample: publicProcedure
         .input(z.string().nullable())
-        .query(async ({ input }) => {
+        // should be async
+        .query(({ input }) => {
             if (!input || input.length === 0) {
                 return null
             }
