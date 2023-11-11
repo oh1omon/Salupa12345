@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
-import Message from './MessageComponent'
+import Error from 'next/error';
+import React, { useEffect, useState } from 'react';
+import { SessionState } from '~/types/game';
+import { clientApi } from '../_trpc/client';
+import Message from './MessageComponent';
 
 interface Message {
   text: string,
@@ -7,34 +10,25 @@ interface Message {
   isSent: boolean;
 }
 
-const ChatComponent: React.FC = () => {
-  const initialMessages: Message[] = [
-    {
-      text: "Hello there!",
-      timestamp: Date.now() - 3600000, // Example timestamp from an hour ago
-      isSent: true,
-    },
-    {
-      text: "Hi! How can I help you?",
-      timestamp: Date.now() - 1800000, // Example timestamp from half an hour ago
-      isSent: false,
-    },
-    {
-      text: "I have a question about your services.",
-      timestamp: Date.now() - 900000, // Example timestamp from 15 minutes ago
-      isSent: true,
-    },
-    {
-      text: "Sure, feel free to ask.",
-      timestamp: Date.now() - 300000, // Example timestamp from 5 minutes ago
-      isSent: false,
-    },
-  ];
-    
-  const [message, setMessage] = useState<string>('')
-  const [messages, setMessages] = useState<Message[]>(initialMessages)
+interface ChatComponentProps {
+  onSessionStateChange: (stage: SessionState) => void
+}
 
-  const handleSubmit = () => {
+const ChatComponent = ({ onSessionStateChange }: ChatComponentProps) => {
+  const messageMutation = clientApi.game.generate.useMutation()
+  const [message, setMessage] = useState<string>('')
+  const [messages, setMessages] = useState<Message[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    if (messages.length === 6) {
+      setTimeout(() => {
+        onSessionStateChange(SessionState.MAKE_GUESS)
+      }, 3000)
+    }
+  }, [messages])
+
+  const handleSubmit = async () => {
     if (message.trim() !== '') {
       const newMessage: Message = {
         text: message,
@@ -42,8 +36,31 @@ const ChatComponent: React.FC = () => {
         isSent: true,
       }
 
+      setIsLoading(true)
+
       setMessages((prevMessages) => [...prevMessages, newMessage])
       setMessage('')
+
+      const response = await messageMutation.mutateAsync(message)
+
+      setIsLoading(true)
+
+      if (!response) {
+        throw new Error({statusCode: 500})
+      }
+
+      const newMessageResponse: Message = {
+        text: response,
+        timestamp: Date.now(),
+        isSent: false,
+      }
+
+      const timeout = response.length * 0.01 * 1000 + 3000
+
+      setTimeout(() => {
+        setIsLoading(false)
+        setMessages((prevMessages) => [...prevMessages, newMessageResponse])
+      }, timeout)
     }
   }
 
@@ -53,14 +70,17 @@ const ChatComponent: React.FC = () => {
 
   const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      handleSubmit()
+      void handleSubmit()
     }
   }
 
   return (
     <div className="h-full w-full rounded-3xl bg-dark-gray p-5">
+      {/* <div className='w-full bg-medium-gray rounded p-2'>
+        <p className='text-md'>Rules are simple: You can ask 3 questions from your opponent, then you need to guess if it was a filthy robot or a fellow human.</p>
+      </div> */}
       <div className="flex h-full w-full flex-col justify-between">
-        <div className="h-[calc(100%-3rem)] overflow-y-auto p-2 flex flex-col">
+        <div className="h-[calc(100%-10rem)] overflow-y-auto p-2 flex flex-col">
           {messages.map((msg) => (
             <Message
               key={msg.timestamp}
@@ -72,6 +92,7 @@ const ChatComponent: React.FC = () => {
         </div>
         <div className="flex h-10 w-full flex-row rounded-md bg-medium-gray px-2 ">
           <input
+            disabled={isLoading}
             type="text"
             placeholder="Type here"
             className="h-full w-full bg-transparent outline-none mr-2"
@@ -80,7 +101,7 @@ const ChatComponent: React.FC = () => {
             onKeyPress={handleInputKeyPress}
           />
           <div
-            onClick={handleSubmit}
+            onClick={() => void handleSubmit()}
             className="h-7 w-7 p-1 cursor-pointer self-center rounded bg-medium-green transition-transform duration-300 hover:brightness-90"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" className="w-full h-full"><path d="M.5 1.163A1 1 0 0 1 1.97.28l12.868 6.837a1 1 0 0 1 0 1.766L1.969 15.72A1 1 0 0 1 .5 14.836V10.33a1 1 0 0 1 .816-.983L8.5 8 1.316 6.653A1 1 0 0 1 .5 5.67V1.163Z" fill="currentColor"></path></svg>

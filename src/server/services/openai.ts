@@ -4,12 +4,12 @@ import axios from 'axios';
 import { ValidCreateMessageResponse, type TextCompletionResponse } from '~/types/openai';
 
 // This function generates a valid chat message. Returns null if request is failed
-export const generateValidChatMessage = async (
+export const generateValidResponse = async (
     prompt: string
-): Promise<unknown | null> => {
+): Promise<string | null> => {
     // Fetch chat message from OpenAI completion API, return null if request is failed
     try {
-        const apiKey = process.env.OPENAI_API_KEY
+        const apiKey = process.env.OPEN_AI_KEY
 
         const { data } = await axios.post<TextCompletionResponse>(
             `https://api.openai.com/v1/completions`,
@@ -31,16 +31,17 @@ export const generateValidChatMessage = async (
 
             ValidCreateMessageResponse.parse(response)
 
+            console.log(response)
 
             return response;
         } catch (error) {
             console.log(
                 'Error while generating chat message. Most likely unappropriate response was generated, retrying...'
             )
-            return await generateValidChatMessage(prompt)
+            return await generateValidResponse(prompt)
         }
     } catch (error) {
-        console.error('Unexpected error while fetching completion from OpenAI.')
+        console.error('Unexpected error while fetching completion from OpenAI.', error)
         return null
     }
 }
