@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { SessionState } from '~/types/game'
 import { throwOutAi } from './throwoutai'
 import { Scene } from '@babylonjs/core'
+import { focusOnThePrisoner } from './cameraanim'
 
 interface GuessComponentProps {
     onSessionStateChange: (stage: SessionState) => void,
@@ -29,6 +30,7 @@ const GuessComponent = ({ onSessionStateChange, scene }: GuessComponentProps) =>
                             <button
                                 onClick={() => {
                                     setResult('Who would have guessed! That was an AI, you are right!');
+                                    focusOnThePrisoner(scene);
                                     throwOutAi(scene);
                                 }
                                 }
