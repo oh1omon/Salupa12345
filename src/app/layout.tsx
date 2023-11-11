@@ -1,5 +1,6 @@
 import Context from './_components/Context'
 
+import "@babylonjs/loaders/glTF";
 import type { Metadata } from 'next'
 
 // These styles apply to every route in the application

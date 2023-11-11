@@ -13,8 +13,6 @@
         "start": "next start"
     },
     "dependencies": {
-        "@babylonjs/core": "^6.29.1",
-        "@babylonjs/loaders": "^6.29.1",
         "@clerk/nextjs": "^4.24.1",
         "@heroicons/react": "^2.0.18",
         "@prisma/client": "^5.1.1",
@@ -36,6 +34,8 @@
         "zod": "^3.21.4"
     },
     "devDependencies": {
+        "@babylonjs/core": "^6.29.1",
+        "@babylonjs/loaders": "^6.29.1",
         "@types/eslint": "^8.44.2",
         "@types/node": "^18.16.0",
         "@types/react": "^18.2.20",
