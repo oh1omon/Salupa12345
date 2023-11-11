@@ -4,6 +4,7 @@ import {
     ArcRotateCamera,
     Color3,
     Color4,
+    CubeTexture,
     HemisphericLight,
     Mesh,
     MeshBuilder,
@@ -104,13 +105,15 @@ const onSceneReady = async (scene: Scene) => {
     })
 
 
-    function putAnother(whatToClone: AbstractMesh, x: number, y: number, z: number, rotation?: number) {
+    function putAnother(whatToClone: AbstractMesh, x: number, y: number, z: number, rotation?: number, name?: string) {
         const humclone = whatToClone.clone('chuj', null)
         humclone.position.x = x;
         humclone.position.y = y;
         humclone.position.z = z;
         if (rotation)
             humclone.rotation = new Vector3(0, Math.PI / rotation, 0);
+        if (name)
+            humclone.name = name
         return humclone;
     }
     for (let index = 0; index < 6; index++) {
@@ -149,7 +152,7 @@ const onSceneReady = async (scene: Scene) => {
 
     const backdoorsTexture = new StandardMaterial('doorsTexture', scene);
     backdoorsTexture.diffuseTexture = new Texture('doors.jpg', scene);
-    const backdoors = MeshBuilder.CreateBox('box', { size: 1, width: 13, height: 8 }, scene)
+    const backdoors = MeshBuilder.CreateBox('shipdoor', { size: 1, width: 13, height: 8 }, scene)
     backdoors.position.y = 4;
     backdoors.position.z = -10;
     backdoors.material = backdoorsTexture
@@ -180,7 +183,7 @@ const onSceneReady = async (scene: Scene) => {
     // MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene)
 
     let i = getRandomInt(4);
-    putAnother([hooman,ely, peasant, robot][i], 0, 0, -7, 1);
+    putAnother([hooman,ely, peasant, robot][i], 0, 0, -7, 1, "playerthrowout");
 }
 
 /**
