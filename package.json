@@ -13,6 +13,8 @@
         "start": "next start"
     },
     "dependencies": {
+        "@babylonjs/core": "^6.29.1",
+        "@babylonjs/loaders": "^6.29.1",
         "@clerk/nextjs": "^4.24.1",
         "@heroicons/react": "^2.0.18",
         "@prisma/client": "^5.1.1",
@@ -27,6 +29,7 @@
         "next": "^13.4.19",
         "openai": "^4.11.1",
         "react": "18.2.0",
+        "react-babylonjs": "^3.1.25",
         "react-dom": "18.2.0",
         "superjson": "^1.13.1",
         "three": "^0.156.1",
