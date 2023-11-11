@@ -1,8 +1,8 @@
-//@ts-nocheck
 
 import "@babylonjs/loaders/glTF";
 import {
     Color4,
+    FlyCamera,
     FreeCamera,
     HemisphericLight,
     Mesh,
@@ -18,15 +18,15 @@ let box: Mesh | undefined
 
 const onSceneReady = (scene: Scene) => {
     // This creates and positions a free camera (non-mesh)
-    const camera = new FreeCamera('camera1', new Vector3(0, 5, -10), scene)
+    const camera = new FlyCamera('camera1', new Vector3(0, 1, -3), scene)
 
     // This targets the camera to scene origin
-    camera.setTarget(Vector3.Zero())
+    camera.setTarget(Vector3.Up())
 
     const canvas = scene.getEngine().getRenderingCanvas()
 
     // This attaches the camera to the canvas
-    camera.attachControl(canvas, true)
+    // camera.attachControl(canvas, true)
 
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
     const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene)
@@ -35,7 +35,7 @@ const onSceneReady = (scene: Scene) => {
     scene.clearColor = new Color4(0, 0, 0, 0);
 
     // Default intensity is 1. Let's dim the light a small amount
-    light.intensity = 1.1
+    light.intensity = 0.1
 
     // Our built-in 'box' shape.
     // box = MeshBuilder.CreateBox('box', { size: 0.5 }, scene)
@@ -46,11 +46,28 @@ const onSceneReady = (scene: Scene) => {
     SceneLoader.ImportMesh("", "animations/", "robot.glb", scene, function(newMeshes) {
         // Set the target of the camera to the first imported mesh
         const hero = newMeshes[0];
-        const idleAnim = scene.getAnimationGroupByName("win");
-        idleAnim?.start(true, 1.0, idleAnim.from, idleAnim.to, false);
+        if (hero) {
+            hero.position.x = 1;
+            hero.rotation = new Vector3(0, Math.PI / 16, 0);
+        }
+        const idleAnim = scene.getAnimationGroupByName("lose");
+        // idleAnim?.stop(true, 1.0, idleAnim.from, idleAnim.to, false);
+        // idleAnim?.stop();
+    });
+
+    SceneLoader.ImportMesh("", "animations/", "hooman.glb", scene, function(newMeshes) {
+        // Set the target of the camera to the first imported mesh
+        const hero = newMeshes[0];
+        if (hero) {
+            hero.position.x = -1;
+            hero.rotation = new Vector3(0, Math.PI / 16, 0);
+            hero.scaling.scaleInPlace(0.5);
+        }
+        const idleAnim = scene.getAnimationGroupByName("defeated");
+        // idleAnim?.stop();
     });
     // Our built-in 'ground' shape.
-    MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene)
+    // MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene)
 }
 
 /**
