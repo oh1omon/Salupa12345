@@ -1,4 +1,3 @@
-import "@babylonjs/loaders/glTF";
 import {
     AbstractMesh,
     ArcRotateCamera,
@@ -13,9 +12,8 @@ import {
     StandardMaterial,
     Texture,
     Vector3,
-} from '@babylonjs/core'
-import { Result } from "postcss";
-import { randomInt } from "crypto";
+} from '@babylonjs/core';
+import "@babylonjs/loaders/glTF";
 // import SceneComponent from 'babylonjs-hook'; // if you install 'babylonjs-hook' NPM.
 
 
@@ -78,33 +76,33 @@ const onSceneReady = async (scene: Scene) => {
     //
     //
 
-    let robot: AbstractMesh = await SceneLoader.ImportMeshAsync("", "animations/", "robot.glb", scene).then((result) => {
+    let robot: any = await SceneLoader.ImportMeshAsync("", "animations/", "robot.glb", scene).then((result: any) => {
         result.meshes[0].position.x = -100;
         result.meshes[0].rotation = new Vector3(0, Math.PI / 16, 0);
         return result.meshes[0]
     })
     // whenever you want to add the mesh to the scene
-    let hooman: AbstractMesh = await SceneLoader.ImportMeshAsync("", "animations/", "hooman.glb", scene).then((result) => {
+    let hooman: any = await SceneLoader.ImportMeshAsync("", "animations/", "hooman.glb", scene).then((result: any) => {
         result.meshes[0].scaling.scaleInPlace(0.5)
         result.meshes[0].rotation = new Vector3(0, Math.PI / 16, 0);
         result.meshes[0].position.x = -100;
         return result.meshes[0]
     })
 
-    let peasant: AbstractMesh = await SceneLoader.ImportMeshAsync("", "animations/", "peasant_girl.glb", scene).then((result) => {
+    let peasant: AbstractMesh = await SceneLoader.ImportMeshAsync("", "animations/", "peasant_girl.glb", scene).then((result: any) => {
         result.meshes[0].rotation = new Vector3(0, Math.PI / 16, 0);
         result.meshes[0].position.x = -100;
         return result.meshes[0]
     })
 
-    let ely: AbstractMesh = await SceneLoader.ImportMeshAsync("", "animations/", "ely.glb", scene).then((result) => {
+    let ely: any = await SceneLoader.ImportMeshAsync("", "animations/", "ely.glb", scene).then((result: any) => {
         result.meshes[0].rotation = new Vector3(0, Math.PI / 16, 0);
         result.meshes[0].position.x = -100;
         return result.meshes[0]
     })
 
 
-    function putAnother(whatToClone: AbstractMesh, x: number, y: number, z: number, rotation?: number) {
+    function putAnother(whatToClone: any, x: number, y: number, z: number, rotation?: number) {
         const humclone = whatToClone.clone('chuj', null)
         humclone.position.x = x;
         humclone.position.y = y;
@@ -201,4 +199,5 @@ const onRender = (scene: Scene) => {
     function getRandomInt(max: number) {
         return Math.floor(Math.random() * max);
     }
-export { onRender, onSceneReady }
+export { onRender, onSceneReady };
+
