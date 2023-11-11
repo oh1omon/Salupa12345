@@ -5,6 +5,7 @@ import SceneComponent from "../_components/SceneComponent"
 import { onRender, onSceneReady } from "../_components/scene"
 import { focusOnTheCrowd, focusOnThePrisoner, moveActiveCamera } from "../_components/cameraanim"
 import { Engine, EngineOptions, Scene, SceneOptions } from '@babylonjs/core'
+import { throwOutAi } from "../_components/throwoutai"
 
 let scene : Scene;
 
@@ -58,7 +59,7 @@ const Game = () => {
             }>kurwa</button>
 
             <button onClick={() =>
-                focusOnTheCrowd(scene)
+                throwOutAi(scene)
             }>kurwa</button>
             <canvas className="h-screen" ref={reactCanvas} />
 
