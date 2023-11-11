@@ -72,7 +72,10 @@ export enum SessionState {
   GAME_IN_PROGRESS = "GAME_IN_PROGRESS",
 
   // guess is done
-  GUESS_DONE = "GUESS_DONE"
+  GUESS_DONE = "GUESS_DONE",
+
+  // guess is made
+  MAKE_GUESS = "MAKE_GUESS"
 }
 
 

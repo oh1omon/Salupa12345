@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface MessageProps {
   text: string
@@ -19,7 +19,7 @@ const Message: React.FC<MessageProps> = ({ text, timestamp, isSent }) => {
         if (opacity <= 0) {
           clearInterval(timerInterval)
         }
-        return Math.max(opacity - 0.01, 0)
+        return Math.max(opacity - 0.001, 0)
       })
     }, 100)
     
