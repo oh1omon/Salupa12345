@@ -1,46 +1,79 @@
-// Player data type
-type Player = {
-    id: string; // unique identifier for the player
-    username: string; // player's username
-    isBot: boolean; // indicates whether the player is a bot or a real person
-  };
-  
-  // Message data type
-  type Message = {
-    id: string; // unique identifier for the message
-    sender: Player; // player who sent the message
-    content: string; // text content of the message
-    timestamp: number; // timestamp when the message was sent
-  };
-  
-  // Game data type
-  type Game = {
-    id: string;
-    players: [Player, Player]; // array of two players participating in the game
-    messages: Message[]; // array of messages exchanged during the game
-    isGuessMade: boolean; // indicates whether a guess has been made by the player
-    isCorrectGuess: boolean | null; // indicates whether the guess was correct (if made)
-  };
-  
-  // AI Bot data type
-  type Bot = {
-    id: string; // unique identifier for the bot
-    name: string; // name of the bot
-    avatar: string; // URL or identifier for the bot's avatar image
-    isChatEnabled: boolean; // indicates whether the bot can participate in chat games
-    // Add any other properties specific to your AI bot
-  };
-  
-  // Combined data type for the entire game state
-  type GameState = {
-    currentPlayer: Player; // player who is currently making a move
-    currentGame: Game | null; // the ongoing game or null if no game is in progress
-    availableBots: Bot[]; // array of available AI bots for the player to choose from
-  };
-  
-  // Action data type (for game actions, e.g., sending a message, making a guess, etc.)
-  type GameAction =
-    | { type: 'SEND_MESSAGE'; content: string }
-    | { type: 'MAKE_GUESS'; isBot: boolean };
-  
-  
+import { z } from "zod";
+
+// Player data type schema
+export const player = z.object({
+  id: z.number(),
+  username: z.string(),
+  isBot: z.boolean(),
+});
+
+export type Player = z.infer<typeof player>;
+
+// Message data type schema
+export const message = z.object({
+  senderId: z.number(),
+  content: z.string(),
+  timestamp: z.number(),
+  gameId: z.number()
+});
+
+export type Message = z.infer<typeof message>;
+
+// Game data type schema
+export const game = z.object({
+  id: z.number(),
+  playerId: z.number(),
+  opponentId: z.number(),
+  messages: z.array(message).nullable(),
+  isGuessMade: z.boolean(),
+  isCorrectGuess: z.boolean().nullable(),
+});
+
+export type Game = z.infer<typeof game>;
+
+export const bot = z.object({
+  id: z.number(),
+  name: z.string(),
+  avatar: z.string(),
+  isChatEnabled: z.boolean(),
+});
+
+export type Bot = z.infer<typeof bot>;
+
+// Combined data type for the entire game state schema
+export const gameSession = z.object({
+  id: z.number(),
+  playerId: z.number(),
+  opponentId: z.number().nullable(),
+  isVerusPlayer: z.boolean(),
+  gameId: z.number().nullable(),
+});
+
+// Action data type schema
+export const gameAction = z.union([
+  z.object({
+    type: z.literal('SEND_MESSAGE'),
+    content: z.string(),
+  }),
+  z.object({
+    type: z.literal('MAKE_GUESS'),
+    isBot: z.boolean(),
+  }),
+]);
+
+export enum SessionState {
+  // no session
+  WAITING_FOR_SESSION = "WAITING_FOR_SESSION",
+
+  // session created, no opponent
+  WAITING_FOR_OPPONENT = "WAITING_FOR_OPPONENT",
+
+  // opponent found, game created
+  GAME_IN_PROGRESS = "GAME_IN_PROGRESS",
+
+  // guess is done
+  GUESS_DONE = "GUESS_DONE"
+}
+
+
+export type GameAction = z.infer<typeof gameAction>;

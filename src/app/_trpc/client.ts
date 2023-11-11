@@ -1,6 +1,6 @@
+import { httpLink } from '@trpc/client'
 import { createTRPCReact } from '@trpc/react-query'
 import { type AppRouter } from '~/server'
-import { httpLink } from '@trpc/client'
 import { getBaseUrl } from './utils/trpc'
 
 // This API handler is used in CSR components

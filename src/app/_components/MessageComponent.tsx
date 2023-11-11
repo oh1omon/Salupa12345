@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 interface MessageProps {
   text: string
@@ -7,17 +7,37 @@ interface MessageProps {
 }
 
 const Message: React.FC<MessageProps> = ({ text, timestamp, isSent }) => {
-  const messageClass = isSent ? "self-end" : "self-start";
-  const iconClass = isSent ? "ml-1" : "mr-1";
-  const iconSource = isSent ? "/icons/person.svg" : "/icons/question_mark.svg";
+  const messageClass = isSent ? 'self-end' : 'self-start'
+  const iconClass = isSent ? 'ml-1' : 'mr-1'
+  const iconSource = isSent ? '/icons/person.svg' : '/icons/question_mark.svg'
+
+  // gradually fade out the message after 10 seconds
+  const [opacity, setOpacity] = useState(1.0)
+  useEffect(() => {
+    let timerInterval = setInterval(() => {
+      setOpacity((opacity) => {
+        if (opacity <= 0) {
+          clearInterval(timerInterval)
+        }
+        return Math.max(opacity - 0.01, 0)
+      })
+    }, 100)
+    
+    return () => clearInterval(timerInterval)
+  }, [])
 
   return (
-    <div className={`w-[fit-content] max-w-[80%] bg-light-gray text-black mb-2 p-2 rounded flex flex-row items-center ${messageClass}`}>
-      {!isSent && <img src={iconSource} alt="Received Icon" className={iconClass} />}
+    <div
+      className={`mb-2 flex w-[fit-content] max-w-[80%] flex-row items-center rounded bg-light-gray p-2 text-black ${messageClass}`}
+      style={{ opacity: opacity }}
+    >
+      {!isSent && (
+        <img src={iconSource} alt="Received Icon" className={iconClass} />
+      )}
       <p className="text-sm">{text}</p>
       {isSent && <img src={iconSource} alt="Sent Icon" className={iconClass} />}
     </div>
-  );
-};
+  )
+}
 
 export default Message

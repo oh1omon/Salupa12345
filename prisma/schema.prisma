@@ -11,19 +11,10 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Player {
-  id        Int       @id @default(autoincrement())
-  username  String
-  isBot     Boolean
-  messages  Message[]
-  games     Game[]   @relation("PlayersInGame")
-}
-
 model Message {
   id         Int      @id @default(autoincrement())
   content    String
   timestamp  Int
-  sender     Player   @relation(fields: [senderId], references: [id])
   senderId   Int
   game       Game     @relation(fields: [gameId], references: [id])
   gameId     Int
@@ -34,13 +25,15 @@ model Game {
   id            Int      @id @default(autoincrement())
   isGuessMade   Boolean
   isCorrectGuess Boolean?
-  players       Player[]  @relation("PlayersInGame")
+  playerId       Int
+  opponentId       Int
   messages      Message[]
 }
 
-model Bot {
-  id             Int      @id @default(autoincrement())
-  name           String
-  avatar         String
-  isChatEnabled  Boolean
+model GameSession {
+  id Int @id @default(autoincrement())
+  playerId    Int
+  opponentId    Int?
+  isVerusPlayer Boolean
+  gameId      Int?
 }
