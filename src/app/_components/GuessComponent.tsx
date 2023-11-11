@@ -25,7 +25,7 @@ const GuessComponent = ({ onSessionStateChange }: GuessComponentProps) => {
                             </button>
                             <button
                                 onClick={() =>
-                                    setResult('Right! That was an AI')
+                                    setResult('Who would have guessed! That was an AI, you are right!')
                                 }
                                 className="flex-1 rounded bg-blue-600 p-4"
                             >
