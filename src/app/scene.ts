@@ -1,7 +1,9 @@
+// @ts-nocheck
 import {
     Color4,
     FreeCamera,
     HemisphericLight,
+    Mesh,
     MeshBuilder,
     Sprite,
     SpriteManager,
@@ -9,7 +11,7 @@ import {
 } from '@babylonjs/core'
 // import SceneComponent from 'babylonjs-hook'; // if you install 'babylonjs-hook' NPM.
 
-let box
+let box: Mesh | undefined
 
 const onSceneReady = (scene) => {
     // This creates and positions a free camera (non-mesh)
