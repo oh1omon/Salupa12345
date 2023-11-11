@@ -14,7 +14,8 @@ const Home = () => {
                 antialias
                 onSceneReady={onSceneReady}
                 onRender={onRender}
-                engineOptions={undefined} adaptToDeviceRatio={undefined} sceneOptions={undefined}            />
+                engineOptions={undefined} adaptToDeviceRatio={undefined} sceneOptions={undefined} 
+            />
             <div className='text-center'>
                 <button>Become the guesser</button>
                 <button>Play as the robot</button>
