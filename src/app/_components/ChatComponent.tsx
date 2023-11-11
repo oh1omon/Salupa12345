@@ -37,7 +37,7 @@ const ChatComponent = ({ onSessionStateChange, onResponderChange }: ChatComponen
         isSent: true,
       }
 
-      onResponderChange(true)
+      onResponderChange(false)
 
       setMessages((prevMessages) => [...prevMessages, newMessage])
       setMessage('')
@@ -60,7 +60,7 @@ const ChatComponent = ({ onSessionStateChange, onResponderChange }: ChatComponen
 
       setTimeout(() => {
         setIsLoading(false)
-        onResponderChange(false)
+        onResponderChange(true)
         setMessages((prevMessages) => [...prevMessages, newMessageResponse])
       }, timeout)
     }

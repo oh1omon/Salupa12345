@@ -1,5 +1,4 @@
 import {
-    AbstractMesh,
     Color4,
     CubeTexture,
     FlyCamera,
@@ -7,13 +6,13 @@ import {
     Mesh,
     Scene,
     SceneLoader,
-    Vector3,
+    Vector3
 } from '@babylonjs/core'
 import '@babylonjs/loaders/glTF'
 // import SceneComponent from 'babylonjs-hook'; // if you install 'babylonjs-hook' NPM.
 
 let box: Mesh | undefined
-let rocket: AbstractMesh
+let rocket: any
 
 let x_pos: number
 let y_pos: number
@@ -81,3 +80,4 @@ const onRender = (scene: Scene) => {
 }
 
 export { onRender, onSceneReady }
+
