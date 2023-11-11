@@ -1,3 +1,4 @@
+//@ts-nocheck
 import {
     Color4,
     FreeCamera,
@@ -5,6 +6,7 @@ import {
     Mesh,
     MeshBuilder,
     Scene,
+    SceneLoader,
     Vector3,
 } from '@babylonjs/core'
 // import SceneComponent from 'babylonjs-hook'; // if you install 'babylonjs-hook' NPM.
@@ -27,17 +29,21 @@ const onSceneReady = (scene: Scene) => {
     const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene)
 
     // Create a background sprite
-    scene.clearColor = new Color4(0, 0, 0, 0);
+    // scene.clearColor = new Color4(0, 0, 0, 0);
 
     // Default intensity is 1. Let's dim the light a small amount
-    light.intensity = 0.1
+    light.intensity = 1.1
 
     // Our built-in 'box' shape.
-    box = MeshBuilder.CreateBox('box', { size: 2 }, scene)
+    box = MeshBuilder.CreateBox('box', { size: 0.5 }, scene)
 
     // Move the box upward 1/2 its height
     box.position.y = 1
-
+    // SceneLoader.ImportMesh("", "/animations/", "robot.glb", scene); //Empty string loads all meshes
+    SceneLoader.ImportMesh("", "animations/", "skull.babylon", scene, function(newMeshes) {
+        // Set the target of the camera to the first imported mesh
+        camera.target = newMeshes[0];
+    });
     // Our built-in 'ground' shape.
     MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene)
 }
