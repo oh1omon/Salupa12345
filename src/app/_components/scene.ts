@@ -2,6 +2,7 @@ import {
     ArcRotateCamera,
     Color3,
     Color4,
+    CubeTexture,
     HemisphericLight,
     Mesh,
     MeshBuilder,
@@ -27,8 +28,8 @@ const onSceneReady = async (scene: Scene) => {
 
     // This targets the camera to scene origin
 
-    // const envTexture = new CubeTexture("space", scene);
-    // scene.createDefaultSkybox(envTexture, true, 1000);
+    const envTexture = new CubeTexture("space", scene);
+    scene.createDefaultSkybox(envTexture, true, 1000);
     const engine = scene.getEngine()
 
     SceneLoader.ImportMesh("", "animations/", "ship.glb", scene, function(newMeshes) {

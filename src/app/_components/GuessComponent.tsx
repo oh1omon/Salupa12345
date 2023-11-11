@@ -3,6 +3,7 @@ import { SessionState } from '~/types/game'
 import { throwOutAi } from './throwoutai'
 import { Scene } from '@babylonjs/core'
 import { focusOnThePrisoner } from './cameraanim'
+import { useRouter } from 'next/navigation'
 
 interface GuessComponentProps {
     onSessionStateChange: (stage: SessionState) => void,
@@ -11,7 +12,7 @@ interface GuessComponentProps {
 
 const GuessComponent = ({ onSessionStateChange, scene }: GuessComponentProps) => {
     const [result, setResult] = useState<string | null>(null)
-
+  const router = useRouter()
     return (
         <div className="bg-dark-gray h-full w-full rounded-3xl p-5">
             <div className="flex h-full w-full flex-col items-center justify-center gap-5">
@@ -43,7 +44,7 @@ const GuessComponent = ({ onSessionStateChange, scene }: GuessComponentProps) =>
                 ) : (
                     <>
                         <p>{result}</p>
-                        <button className="bg-medium-green w-1/2 rounded p-4" onClick={() => onSessionStateChange(SessionState.WAITING_FOR_OPPONENT)}>Start over</button>
+                        <button className="bg-medium-green w-1/2 rounded p-4" onClick={() => {onSessionStateChange(SessionState.WAITING_FOR_OPPONENT); router.refresh()}}>Start over</button>
                     </>
                 )}
             </div>
