@@ -1,12 +1,12 @@
 'use client'
 
 import SceneComponent from "./_components/SceneComponent"
-import { onRender, onSceneReady } from "./_components/scene"
+import { onRender, onSceneReady } from "./_components/scenespace"
 
 const Home = () => {
     return (
         <div className="flex h-full w-100 flex-1 flex-col justify-center gap-1 md:w-full">
-            <header className='text-center'>
+            <header className='text-center justify-center absolute m-auto left-0 right-0 top-8 '>
                 <h1 className="text-4xl">Robot<span className='text-emerald-500'>Guesser</span></h1>
                 <h3>Guess who you are chatting with and win prizes!</h3>
             </header>
