@@ -1,8 +1,8 @@
-import { exampleRouter } from './routes/example'
+import { gameRouter } from './routes/game'
 import { router } from './trpc'
 
 export const appRouter = router({
-    example: exampleRouter,
+    game: gameRouter
 })
 
 export type AppRouter = typeof appRouter

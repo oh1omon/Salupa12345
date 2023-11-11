@@ -10,7 +10,8 @@
         "postinstall": "prisma generate",
         "lint": "next lint",
         "lint:fix": "next lint --fix .",
-        "start": "next start"
+        "start": "next start",
+        "dev:wss": "cross-env PORT=3001 tsx watch src/server/wssDevServer.ts --tsconfig tsconfig.server.json "
     },
     "dependencies": {
         "@clerk/nextjs": "^4.24.1",
@@ -23,14 +24,19 @@
         "@trpc/react-query": "^10.37.1",
         "@trpc/server": "^10.37.1",
         "axios": "^1.5.1",
+        "cross-env": "^7.0.3",
         "framer-motion": "^10.16.4",
         "next": "^13.4.19",
+        "next-auth": "^4.24.5",
+        "next-ws": "^1.0.0",
         "openai": "^4.11.1",
         "react": "18.2.0",
         "react-babylonjs": "^3.1.25",
         "react-dom": "18.2.0",
         "superjson": "^1.13.1",
         "three": "^0.156.1",
+        "tsx": "^4.1.1",
+        "ws": "^8.14.2",
         "zod": "^3.21.4"
     },
     "devDependencies": {
@@ -40,6 +46,7 @@
         "@types/node": "^18.16.0",
         "@types/react": "^18.2.20",
         "@types/react-dom": "^18.2.7",
+        "@types/ws": "^8.5.9",
         "@typescript-eslint/eslint-plugin": "^6.3.0",
         "@typescript-eslint/parser": "^6.3.0",
         "autoprefixer": "^10.4.14",
