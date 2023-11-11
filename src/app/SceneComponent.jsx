@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Engine, Scene } from '@babylonjs/core'
 import { useEffect, useRef } from 'react'
 
