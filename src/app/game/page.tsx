@@ -1,50 +1,67 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { SessionState } from '~/types/game'
-import ChatComponent from '../_components/ChatComponent'
-import GuessComponent from '../_components/GuessComponent'
-import LoadingComponent from '../_components/LoadingComponent'
-import SceneComponent from '../_components/SceneComponent'
-import { onRender, onSceneReady } from '../_components/scene'
+import React, { useEffect, useRef } from "react"
+import SceneComponent from "../_components/SceneComponent"
+import { onRender, onSceneReady } from "../_components/scene"
+import { focusOnTheCrowd, focusOnThePrisoner, moveActiveCamera } from "../_components/cameraanim"
+import { Engine, EngineOptions, Scene, SceneOptions } from '@babylonjs/core'
+
+let scene : Scene;
 
 const Game = () => {
-    const [sessionState, setSessionState] = useState<SessionState>(
-        SessionState.WAITING_FOR_OPPONENT
-    )
 
+    const reactCanvas = useRef(null)
+
+    // set up basic engine and scene
     useEffect(() => {
-        if (sessionState === SessionState.WAITING_FOR_OPPONENT) {
-            setTimeout(() => {
-                setSessionState(SessionState.GAME_IN_PROGRESS)
-            }, 5000)
+        const { current: canvas } = reactCanvas
+
+        if (!canvas) return
+
+        const engine = new Engine(
+            canvas,
+            true,
+        )
+        scene = new Scene(engine, undefined)
+
+        if (scene.isReady()) {
+            onSceneReady(scene)
+        } else {
+            scene.onReadyObservable.addOnce((scene) => onSceneReady(scene))
         }
-    }, [sessionState])
+
+        engine.runRenderLoop(() => {
+            if (typeof onRender === 'function') onRender(scene)
+            scene.render()
+        })
+
+        const resize = () => {
+            scene.getEngine().resize()
+        }
+
+        if (window) {
+            window.addEventListener('resize', resize)
+        }
+
+        return () => {
+            scene.getEngine().dispose()
+
+            if (window) {
+                window.removeEventListener('resize', resize)
+            }
+        }
+    }, [])
     return (
-        <div className="h-screen w-screen relative">
-            <SceneComponent
-                antialias
-                onSceneReady={onSceneReady}
-                onRender={onRender}
-                engineOptions={undefined}
-                adaptToDeviceRatio={undefined}
-            />
-            <div className="absolute top-0 left-0 z-10 flex h-screen w-screen flex-row p-5 pointer-events-none">
-                <div className="w-3/5" />
-                <div className="flex1-2 w-2/5 pointer-events-auto">
-                    {sessionState === SessionState.WAITING_FOR_OPPONENT && (
-                        <LoadingComponent />
-                    )}
-                    {sessionState === SessionState.GAME_IN_PROGRESS && (
-                        <ChatComponent onSessionStateChange={setSessionState} />
-                    )}
-                    {sessionState === SessionState.MAKE_GUESS && (
-                        <GuessComponent
-                            onSessionStateChange={setSessionState}
-                        />
-                    )}
-                </div>
-            </div>
+        <div className="w-screen h-screen ">
+            <button onClick={() =>
+                focusOnThePrisoner(scene)
+            }>kurwa</button>
+
+            <button onClick={() =>
+                focusOnTheCrowd(scene)
+            }>kurwa</button>
+            <canvas className="h-screen" ref={reactCanvas} />
+
         </div>
     )
 }

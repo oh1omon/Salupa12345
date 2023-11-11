@@ -26,7 +26,7 @@ let camera:ArcRotateCamera
 
 const onSceneReady = async (scene: Scene) => {
     // This creates and positions a free camera (non-mesh)
-    camera = new ArcRotateCamera('camera', -1.6, 1.6, 1, new Vector3(0,2,-5.5),scene);
+    camera = new ArcRotateCamera('camera', 1.6, 1.6, 1, new Vector3(0,2,-2.5),scene);
 
     // This targets the camera to scene origin
 
@@ -44,7 +44,7 @@ const onSceneReady = async (scene: Scene) => {
         }
     });
     // This attaches the camera to the canvas
-    camera.attachControl(true)
+    // camera.attachControl(true)
 
     // const light2 = new PointLight("pointLight", new Vector3(4, 4, -5), scene);
     const light = new HemisphericLight('light', new Vector3(0, 3, 0), scene)
@@ -91,12 +91,27 @@ const onSceneReady = async (scene: Scene) => {
         return result.meshes[0]
     })
 
+    let peasant: AbstractMesh = await SceneLoader.ImportMeshAsync("", "animations/", "peasant_girl.glb", scene).then((result) => {
+        result.meshes[0].rotation = new Vector3(0, Math.PI / 16, 0);
+        result.meshes[0].position.x = -100;
+        return result.meshes[0]
+    })
 
-    function putAnother(whatToClone: AbstractMesh, x: number, y: number, z: number) {
+    let ely: AbstractMesh = await SceneLoader.ImportMeshAsync("", "animations/", "ely.glb", scene).then((result) => {
+        result.meshes[0].rotation = new Vector3(0, Math.PI / 16, 0);
+        result.meshes[0].position.x = -100;
+        return result.meshes[0]
+    })
+
+
+    function putAnother(whatToClone: AbstractMesh, x: number, y: number, z: number, rotation?: number) {
         const humclone = whatToClone.clone('chuj', null)
         humclone.position.x = x;
         humclone.position.y = y;
         humclone.position.z = z;
+        if (rotation)
+            humclone.rotation = new Vector3(0, Math.PI / rotation, 0);
+        return humclone;
     }
     for (let index = 0; index < 6; index++) {
 
@@ -109,14 +124,11 @@ const onSceneReady = async (scene: Scene) => {
         box.material = metalTexture;
         box2.material = rustyTexture;
     }
-    function getRandomInt(max: number) {
-        return Math.floor(Math.random() * max);
-    }
 
     for (let index = 0; index < 6; index++) {
 
         for (let z = 0; z < 13; z++) {
-            let i = getRandomInt(3);
+            let i = getRandomInt(4);
             switch (i) {
                 case 0:
                     putAnother(robot, -5 + z, -0.3 + index, 1.0 + index);
@@ -124,29 +136,17 @@ const onSceneReady = async (scene: Scene) => {
                 case 1:
                     putAnother(hooman, -5 + z, -0.3 + index, 1.0 + index);
                     break;
+                case 2:
+                    putAnother(peasant, -5 + z, -0.0 + index, 1.0 + index);
+                    break;
+
+                case 3:
+                    putAnother(ely, -5 + z, 0.2 + index, 1.0 + index);
             }
 
-            // SceneLoader.ImportMesh("", "animations/", "robot.glb", scene, function(newMeshes) {
-            //     // Set the target of the camera to the first imported mesh
-            //     const hero = newMeshes[0];
-            //
-            //     if (hero) {
-            //         hero.position.x = -5 + z;
-            //         hero.position.z = 1 + index;
-            //         hero.position.y = -0.3 + index;
-            //         hero.rotation = new Vector3(0, Math.PI / 16, 0);
-            //     }
-            // }
-            // )
         }
     }
 
-    // if (hero) {
-    //     hero.position.x = 1 + index;
-    //     hero.rotation = new Vector3(0, Math.PI / 16, 0);
-    // }
-    // idleAnim?.stop(true, 1.0, idleAnim.from, idleAnim.to, false);
-    // idleAnim?.stop();
     const backdoorsTexture = new StandardMaterial('doorsTexture', scene);
     backdoorsTexture.diffuseTexture = new Texture('doors.jpg', scene);
     const backdoors = MeshBuilder.CreateBox('box', { size: 1, width: 13, height: 8 }, scene)
@@ -175,9 +175,12 @@ const onSceneReady = async (scene: Scene) => {
 
     prisonwindow.material = glass;
 
-    // putHuman(0,0,0);
+    // Put main player
     // Our built-in 'ground' shape.
     // MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene)
+
+    let i = getRandomInt(4);
+    putAnother([hooman,ely, peasant, robot][i], 0, 0, -7, 1);
 }
 
 /**
@@ -191,8 +194,11 @@ const onRender = (scene: Scene) => {
     //     box.rotation.y += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1000)
     // }
     // 
-    camera.alpha+=0.01;
     
 }
 
+
+    function getRandomInt(max: number) {
+        return Math.floor(Math.random() * max);
+    }
 export { onRender, onSceneReady }

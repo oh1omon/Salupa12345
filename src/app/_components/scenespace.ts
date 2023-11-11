@@ -13,7 +13,7 @@ import '@babylonjs/loaders/glTF'
 // import SceneComponent from 'babylonjs-hook'; // if you install 'babylonjs-hook' NPM.
 
 let box: Mesh | undefined
-let rocket: AbstractMesh 
+let rocket: AbstractMesh
 
 let x_pos: number
 let y_pos: number
@@ -36,27 +36,27 @@ const onSceneReady = (scene: Scene) => {
     camera.attachControl(true)
 
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    // const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene)
+    const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene)
 
     // Create a background sprite
     scene.clearColor = new Color4(0, 0, 0, 0)
 
     // Default intensity is 1. Let's dim the light a small amount
-    // light.intensity = 0.1
+    light.intensity = 0.1
 
 
     SceneLoader.ImportMesh("", "animations/", "rocket.glb", scene, function(newMeshes) { // 
         // Set the target of the camera to the first imported mesh
-            
-        if(newMeshes[0])
+
+        if (newMeshes[0])
             rocket = newMeshes[0]
-            x_start = rocket.position.x
-            y_start = rocket.position.y
-            z_start = rocket.position.z
-            rocket.position.z = rocket.position.z + 2
-            rocket.position.y = rocket.position.y + 1
-            // Set the scaling of the root mesh to make the object smaller
-            rocket.scaling.scaleInPlace(0.007)
+        x_start = rocket.position.x
+        y_start = rocket.position.y
+        z_start = rocket.position.z
+        rocket.position.z = rocket.position.z + 2
+        rocket.position.y = rocket.position.y + 1
+        // Set the scaling of the root mesh to make the object smaller
+        rocket.scaling.scaleInPlace(0.007)
     });
 }
 
