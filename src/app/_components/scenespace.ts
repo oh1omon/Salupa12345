@@ -15,18 +15,18 @@ import '@babylonjs/loaders/glTF'
 let box: Mesh | undefined
 let rocket: AbstractMesh 
 
-let x_pos: Number
-let y_pos: Number
-let z_pos: Number
+let x_pos: number
+let y_pos: number
+let z_pos: number
 
-let x_start: Number
-let y_start: Number
-let z_start: Number
+let x_start: number
+let y_start: number
+let z_start: number
 
 const onSceneReady = (scene: Scene) => {
     // This creates and positions a free camera (non-mesh)
     const camera = new FlyCamera('camera1', new Vector3(0, 1, -3), scene)
-    var envTexture = new CubeTexture("space", scene);
+    const envTexture = new CubeTexture("space", scene);
     scene.createDefaultSkybox(envTexture, true, 1000);
     // This targets the camera to scene origin
     camera.setTarget(Vector3.Up())
@@ -36,16 +36,16 @@ const onSceneReady = (scene: Scene) => {
     camera.attachControl(true)
 
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene)
+    // const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene)
 
     // Create a background sprite
     scene.clearColor = new Color4(0, 0, 0, 0)
 
     // Default intensity is 1. Let's dim the light a small amount
-    light.intensity = 0.1
+    // light.intensity = 0.1
 
 
-    SceneLoader.ImportMesh("", "animations/", "rocket.glb", scene, function(newMeshes) {
+    SceneLoader.ImportMesh("", "animations/", "rocket.glb", scene, function(newMeshes) { // 
         // Set the target of the camera to the first imported mesh
             
         if(newMeshes[0])
