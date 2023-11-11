@@ -12,9 +12,10 @@ interface Message {
 
 interface ChatComponentProps {
   onSessionStateChange: (stage: SessionState) => void
+  onResponderChange: (isAi: boolean) => void
 }
 
-const ChatComponent = ({ onSessionStateChange }: ChatComponentProps) => {
+const ChatComponent = ({ onSessionStateChange, onResponderChange }: ChatComponentProps) => {
   const messageMutation = clientApi.game.generate.useMutation()
   const [message, setMessage] = useState<string>('')
   const [messages, setMessages] = useState<Message[]>([])
@@ -36,7 +37,7 @@ const ChatComponent = ({ onSessionStateChange }: ChatComponentProps) => {
         isSent: true,
       }
 
-      setIsLoading(true)
+      onResponderChange(true)
 
       setMessages((prevMessages) => [...prevMessages, newMessage])
       setMessage('')
@@ -59,6 +60,7 @@ const ChatComponent = ({ onSessionStateChange }: ChatComponentProps) => {
 
       setTimeout(() => {
         setIsLoading(false)
+        onResponderChange(false)
         setMessages((prevMessages) => [...prevMessages, newMessageResponse])
       }, timeout)
     }
