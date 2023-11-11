@@ -30,12 +30,17 @@ const onSceneReady = (scene: Scene) => {
     scene.createDefaultSkybox(envTexture, false, 10000);//
     camera.attachControl(true);
 
+    SceneLoader.ImportMesh("", "animations/", "ship.glb", scene, function(newMeshes) {
+        // Set the target of the camera to the first imported mesh
+        const hero = newMeshes[0];
+    });
+
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
     // const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene)
     // Create a background sprite
     scene.clearColor = new Color4(0, 0, 0, 0);
-
 }
+
 /**
  * Will run on every frame render.  We are spinning the box on y-axis.
  */
