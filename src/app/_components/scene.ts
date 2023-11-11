@@ -1,5 +1,4 @@
 import {
-    AbstractMesh,
     ArcRotateCamera,
     Color3,
     Color4,
@@ -89,7 +88,7 @@ const onSceneReady = async (scene: Scene) => {
         return result.meshes[0]
     })
 
-    let peasant: AbstractMesh = await SceneLoader.ImportMeshAsync("", "animations/", "peasant_girl.glb", scene).then((result: any) => {
+    let peasant: any = await SceneLoader.ImportMeshAsync("", "animations/", "peasant_girl.glb", scene).then((result: any) => {
         result.meshes[0].rotation = new Vector3(0, Math.PI / 16, 0);
         result.meshes[0].position.x = -100;
         return result.meshes[0]

@@ -1,4 +1,4 @@
-import { AbstractMesh, Mesh, Scene } from "@babylonjs/core";
+import { Scene } from "@babylonjs/core";
 import { createAnimation } from "./cameraanim";
 
 const FRAMES_PER_SECOND = 60;
@@ -9,8 +9,8 @@ const TO_FRAME = 400;
 
 
 function throwOutAi(scene: Scene) {
-    const opponentMesh: AbstractMesh = scene.getMeshByName('playerthrowout');
-    const shipdoor: AbstractMesh = scene.getMeshByName('shipdoor');
+    const opponentMesh: any = scene.getMeshByName('playerthrowout');
+    const shipdoor: any = scene.getMeshByName('shipdoor');
     opponentMesh.animations = [
         createAnimation({
             property: "position.z",
@@ -41,4 +41,5 @@ function throwOutAi(scene: Scene) {
 
 };
 
-export { throwOutAi }
+export { throwOutAi };
+
