@@ -1,7 +1,10 @@
 import {
+    Color4,
     FreeCamera,
     HemisphericLight,
     MeshBuilder,
+    Sprite,
+    SpriteManager,
     Vector3,
 } from '@babylonjs/core'
 // import SceneComponent from 'babylonjs-hook'; // if you install 'babylonjs-hook' NPM.
@@ -23,8 +26,11 @@ const onSceneReady = (scene) => {
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
     const light = new HemisphericLight('light', new Vector3(0, 1, 0), scene)
 
+    // Create a background sprite
+    scene.clearColor = new Color4(0, 0, 0, 0);
+
     // Default intensity is 1. Let's dim the light a small amount
-    light.intensity = 0.7
+    light.intensity = 0.1
 
     // Our built-in 'box' shape.
     box = MeshBuilder.CreateBox('box', { size: 2 }, scene)
