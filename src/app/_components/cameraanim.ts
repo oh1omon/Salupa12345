@@ -72,11 +72,11 @@ function moveActiveCamera(scene, { radius, alpha, beta, target }) {
 
 const focusOnTheCrowd = (scene: Scene) => {
     moveActiveCamera(scene, {
-        alpha: -1.6,
+        alpha: -1.4,
         beta: 1.6,
-        radius: 1,
+        radius: 1.6,
         target: {
-            x: 0,
+            x: 6,
             y: 2,
             z: -5.5,
         },
@@ -86,12 +86,12 @@ const focusOnTheCrowd = (scene: Scene) => {
 const focusOnThePrisoner = (scene: Scene) => {
     moveActiveCamera(scene, {
         alpha: 1.6,
-        beta: 1.7,
+        beta: 1.6,
         radius: 1,
         target: {
-            x: 0,
-            y: 1,
-            z: -5,
+            x: -1.5,
+            y: 1.5,
+            z: -5.5,
         },
     })
 }

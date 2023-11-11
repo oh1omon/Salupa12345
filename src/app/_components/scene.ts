@@ -27,7 +27,7 @@ let camera:ArcRotateCamera
 
 const onSceneReady = async (scene: Scene) => {
     // This creates and positions a free camera (non-mesh)
-    camera = new ArcRotateCamera('camera', 1.6, 1.6, 1, new Vector3(0,2,-2.5),scene);
+    camera = new ArcRotateCamera('camera', 1.6, 1.6, 1, new Vector3(-1.5,1.5,-5.5),scene);
 
     // This targets the camera to scene origin
 
@@ -183,7 +183,7 @@ const onSceneReady = async (scene: Scene) => {
     // MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene)
 
     let i = getRandomInt(4);
-    putAnother([hooman,ely, peasant, robot][i], 0, 0, -7, 1, "playerthrowout");
+    putAnother([hooman,ely, peasant, robot][i], 0, 0, -8, 1, "playerthrowout");
 }
 
 /**

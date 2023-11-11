@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { SessionState } from '~/types/game'
+import { throwOutAi } from './throwoutai'
+import { Scene } from '@babylonjs/core'
 
 interface GuessComponentProps {
-    onSessionStateChange: (stage: SessionState) => void
+    onSessionStateChange: (stage: SessionState) => void,
+    scene: Scene
 }
 
-const GuessComponent = ({ onSessionStateChange }: GuessComponentProps) => {
+const GuessComponent = ({ onSessionStateChange, scene }: GuessComponentProps) => {
     const [result, setResult] = useState<string | null>(null)
 
     return (
@@ -24,8 +27,10 @@ const GuessComponent = ({ onSessionStateChange }: GuessComponentProps) => {
                                 Human
                             </button>
                             <button
-                                onClick={() =>
-                                    setResult('Who would have guessed! That was an AI, you are right!')
+                                onClick={() => {
+                                    setResult('Who would have guessed! That was an AI, you are right!');
+                                    throwOutAi(scene);
+                                }
                                 }
                                 className="flex-1 rounded bg-blue-600 p-4"
                             >

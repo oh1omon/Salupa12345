@@ -99,6 +99,7 @@ const Game = () => {
                     )}
                     {sessionState === SessionState.MAKE_GUESS && (
                         <GuessComponent
+                        scene={scene}
                             onSessionStateChange={setSessionState}
                         />
                     )}
