@@ -5,7 +5,7 @@ interface BabylonSceneProps {
     antialias?: boolean;
     engineOptions?: EngineOptions;
     adaptToDeviceRatio?: boolean;
-    sceneOptions?: SceneOptions;
+    scene: Scene;
     onRender?: (scene: Scene) => void;
     onSceneReady: (scene: Scene) => void;
 }
@@ -13,7 +13,7 @@ interface BabylonSceneProps {
     antialias,
     engineOptions,
     adaptToDeviceRatio,
-    sceneOptions,
+    scene,
     onRender,
     onSceneReady,
     ...rest
@@ -32,7 +32,6 @@ interface BabylonSceneProps {
             engineOptions,
             adaptToDeviceRatio
         )
-        const scene = new Scene(engine, sceneOptions)
         if (scene.isReady()) {
             onSceneReady(scene)
         } else {

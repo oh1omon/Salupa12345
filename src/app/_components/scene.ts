@@ -4,20 +4,12 @@ import {
     ArcRotateCamera,
     Color3,
     Color4,
-    CubeTexture,
-    FlyCamera,
-    FreeCamera,
-    HDRCubeTexture,
     HemisphericLight,
     Mesh,
     MeshBuilder,
     PBRMaterial,
-    PointLight,
     Scene,
     SceneLoader,
-    SpotLight,
-    Sprite,
-    SpriteManager,
     StandardMaterial,
     Texture,
     Vector3,
@@ -175,7 +167,9 @@ const onSceneReady = async (scene: Scene) => {
     glass.albedoColor = new Color3(0.95, 0.95, 0.95);
 
     const prisonwindow = MeshBuilder.CreateBox('box', { size: 1, width: 13, height: 8 }, scene)
-    prisonwindow.position.y = 4;
+    prisonwindow.position.y = 4;function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
     prisonwindow.position.z = -7;
     prisonwindow.material = backdoorsTexture
 
