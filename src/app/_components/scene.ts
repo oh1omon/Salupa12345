@@ -1,19 +1,17 @@
-// @ts-nocheck
 import {
     Color4,
     FreeCamera,
     HemisphericLight,
     Mesh,
     MeshBuilder,
-    Sprite,
-    SpriteManager,
+    Scene,
     Vector3,
 } from '@babylonjs/core'
 // import SceneComponent from 'babylonjs-hook'; // if you install 'babylonjs-hook' NPM.
 
 let box: Mesh | undefined
 
-const onSceneReady = (scene) => {
+const onSceneReady = (scene: Scene) => {
     // This creates and positions a free camera (non-mesh)
     const camera = new FreeCamera('camera1', new Vector3(0, 5, -10), scene)
 
@@ -47,7 +45,7 @@ const onSceneReady = (scene) => {
 /**
  * Will run on every frame render.  We are spinning the box on y-axis.
  */
-const onRender = (scene) => {
+const onRender = (scene: Scene) => {
     if (box !== undefined) {
         const deltaTimeInMillis = scene.getEngine().getDeltaTime()
 

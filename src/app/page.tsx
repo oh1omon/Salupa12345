@@ -1,6 +1,7 @@
 'use client'
-import { onRender, onSceneReady } from './scene'
-import SceneComponent from './SceneComponent'
+
+import SceneComponent from "./_components/SceneComponent"
+import { onRender, onSceneReady } from "./_components/scene"
 
 const Home = () => {
     return (
@@ -13,7 +14,7 @@ const Home = () => {
                 antialias
                 onSceneReady={onSceneReady}
                 onRender={onRender}
-                id="my-canvas" engineOptions={undefined} adaptToDeviceRatio={undefined} sceneOptions={undefined}            />
+                engineOptions={undefined} adaptToDeviceRatio={undefined} sceneOptions={undefined}            />
             <div className='text-center'>
                 <button>Become the guesser</button>
                 <button>Play as the robot</button>
