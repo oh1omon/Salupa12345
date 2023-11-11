@@ -14,10 +14,17 @@ const Home = () => {
                 antialias
                 onSceneReady={onSceneReady}
                 onRender={onRender}
-                engineOptions={undefined} adaptToDeviceRatio={undefined} sceneOptions={undefined}            />
-            <div className='text-center flex justify-center absolute m-auto left-0 right-0 bottom-8'>
-                <button className='border mr-4 p-2 rounded-lg border-emerald-500'>Become the guesser</button>
-                <button className='border p-2 rounded-lg border-emerald-500'>Play as the robot</button>
+                engineOptions={undefined}
+                adaptToDeviceRatio={undefined}
+                sceneOptions={undefined}
+            />
+            <div className="absolute bottom-8 left-0 right-0 m-auto flex justify-center text-center">
+                <button className="mr-4 rounded-lg border border-emerald-500 p-2">
+                    Become the guesser
+                </button>
+                <button className="rounded-lg border border-emerald-500 p-2">
+                    Play as the robot
+                </button>
             </div>
         </div>
     )
