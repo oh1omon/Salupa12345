@@ -58,7 +58,7 @@ const onSceneReady = (scene: Scene) => {
             rocket.position.y = rocket.position.y + 1
             rocket.rotate(Vector3.Right(), Math.PI / 4)
             // Set the scaling of the root mesh to make the object smaller
-            rocket.scaling.scaleInPlace(0.1)
+            rocket.scaling.scaleInPlace(0.15)
         }
     )
 }

@@ -24,8 +24,7 @@ let camera:ArcRotateCamera
 
 const onSceneReady = async (scene: Scene) => {
     // This creates and positions a free camera (non-mesh)
-    camera = new ArcRotateCamera('camera', 1.6, 1.6, 1, new Vector3(-1.5,1.5,-5.5),scene);
-
+    camera = new ArcRotateCamera('camera', -1.4, 1.6, 1.6, new Vector3(6,2,-5.5),scene);
     // This targets the camera to scene origin
 
     const envTexture = new CubeTexture("space", scene);
@@ -81,9 +80,9 @@ const onSceneReady = async (scene: Scene) => {
         result.meshes[0].rotation = new Vector3(0, Math.PI / 16, 0);
         return result.meshes[0]
     })
-    // whenever you want to add the mesh to the scene
-    let hooman: any = await SceneLoader.ImportMeshAsync("", "animations/", "hooman.glb", scene).then((result: any) => {
-        result.meshes[0].scaling.scaleInPlace(0.5)
+    // TODO change this to hooman.glb
+    let hooman: any = await SceneLoader.ImportMeshAsync("", "animations/", "robot.glb", scene).then((result: any) => {
+        // result.meshes[0].scaling.scaleInPlace(0.5)
         result.meshes[0].rotation = new Vector3(0, Math.PI / 16, 0);
         result.meshes[0].position.x = -100;
         return result.meshes[0]

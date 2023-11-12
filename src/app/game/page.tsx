@@ -17,12 +17,15 @@ const Game = () => {
     const [sessionState, setSessionState] = useState<SessionState>(
         SessionState.WAITING_FOR_OPPONENT
     )
+    const [isAiAnswering, setIsAiAnswering] = useState<Boolean>(
+        false
+    )
 
     useEffect(() => {
         if (sessionState === SessionState.WAITING_FOR_OPPONENT) {
             setTimeout(() => {
                 setSessionState(SessionState.GAME_IN_PROGRESS)
-            }, 5000)
+            }, 2000)
         }
     }, [sessionState])
 
@@ -64,7 +67,13 @@ const Game = () => {
     }, [])
 
     const onResponderChange = (isAiAnswering: boolean) => {
-        isAiAnswering ? focusOnTheCrowd(scene) : focusOnThePrisoner(scene)
+        if (isAiAnswering) {
+            focusOnTheCrowd(scene)
+            setIsAiAnswering(false)
+        } else {
+            focusOnThePrisoner(scene)
+            setIsAiAnswering(true)
+        }
     }
 
     return (
@@ -99,12 +108,17 @@ const Game = () => {
                     )}
                     {sessionState === SessionState.MAKE_GUESS && (
                         <GuessComponent
-                        scene={scene}
+                            scene={scene}
                             onSessionStateChange={setSessionState}
                         />
                     )}
                 </div>
             </div>
+            {sessionState === SessionState.GAME_IN_PROGRESS &&
+                <h3 className="absolute left-8 bottom-8">
+                    {isAiAnswering ? "The prisoner is answering the question" : "Your turn, ask the question"}
+                </h3>
+            }
         </div>
     )
 }

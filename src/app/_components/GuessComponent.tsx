@@ -44,7 +44,7 @@ const GuessComponent = ({ onSessionStateChange, scene }: GuessComponentProps) =>
                 ) : (
                     <>
                         <p>{result}</p>
-                        <button className="bg-medium-green w-1/2 rounded p-4" onClick={() => {onSessionStateChange(SessionState.WAITING_FOR_OPPONENT); router.refresh()}}>Start over</button>
+                        <button className="bg-medium-green w-1/2 rounded p-4" onClick={() => {router.refresh(); onSessionStateChange(SessionState.WAITING_FOR_OPPONENT); }}>Start over</button>
                     </>
                 )}
             </div>

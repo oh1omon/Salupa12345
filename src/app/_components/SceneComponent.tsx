@@ -68,6 +68,6 @@ const SceneComponent = ({
         onSceneReady,
     ])
 
-    return <canvas ref={reactCanvas} {...rest} />
+    return <canvas className="h-screen" ref={reactCanvas} {...rest} />
 }
 export default SceneComponent
