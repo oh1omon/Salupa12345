@@ -1,9 +1,11 @@
 import {
+    AbstractMesh,
     Color4,
     CubeTexture,
     FlyCamera,
     HemisphericLight,
     Mesh,
+    Nullable,
     Scene,
     SceneLoader,
     Vector3
@@ -20,7 +22,7 @@ let angle = 0.0
 let angleMultiplier: Number = 1
 let envTexture: CubeTexture
 let angle_y = 0.0
-let back_mesh: Mesh
+let back_mesh: Nullable<Mesh>
 
 const onSceneReady = (scene: Scene) => {
     // This creates and positions a free camera (non-mesh)
@@ -51,8 +53,8 @@ const onSceneReady = (scene: Scene) => {
         function (newMeshes) {
             // Set the target of the camera to the first imported mesh
 
-            //if (newMeshes[0])
-            rocket = newMeshes[0]
+            if (newMeshes[0])
+                rocket = newMeshes[0]
 
             rocket.position.z = rocket.position.z + 140
             rocket.position.y = rocket.position.y + 1
@@ -99,6 +101,7 @@ const onRender = (scene: Scene) => {
         //const rotateSpeedZ = 0.01 // Adjust the rotation speed as needed
         //const skybox = scene.getMeshByName('skyBox')
 
+        if(back_mesh)
         back_mesh.rotate(Vector3.Right(), Math.PI / 200)
 
         // Check if the skybox mesh exists

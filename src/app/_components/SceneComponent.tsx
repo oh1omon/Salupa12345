@@ -34,7 +34,7 @@ const SceneComponent = ({
         )
         const scene = new Scene(engine, sceneOptions)
         if (scene.isReady()) {
-            onSceneReady(scene, canvas)
+            onSceneReady(scene)
         } else {
             scene.onReadyObservable.addOnce((scene) => onSceneReady(scene))
         }
