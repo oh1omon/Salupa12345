@@ -25,7 +25,7 @@ const ChatComponent = ({ onSessionStateChange, onResponderChange }: ChatComponen
     if (messages.length === 6) {
       setTimeout(() => {
         onSessionStateChange(SessionState.MAKE_GUESS)
-      }, 2000)
+      }, 5000)
     }
   }, [messages])
 
@@ -56,7 +56,7 @@ const ChatComponent = ({ onSessionStateChange, onResponderChange }: ChatComponen
         isSent: false,
       }
 
-      const timeout = response.length * 0.01 * 1000 + 3000
+      const timeout = response.length * 0.01 * 1000 + 500
 
       setTimeout(() => {
         setIsLoading(false)
