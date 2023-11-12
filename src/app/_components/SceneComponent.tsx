@@ -1,4 +1,4 @@
-import { Engine, EngineOptions, Scene, SceneOptions } from '@babylonjs/core'
+import { Engine, EngineOptions, Scene, SceneOptions, WebGPUEngine } from '@babylonjs/core'
 import { useEffect, useRef } from 'react'
 
 interface BabylonSceneProps {
@@ -22,50 +22,45 @@ const SceneComponent = ({
 
     // set up basic engine and scene
     useEffect(() => {
-        const { current: canvas } = reactCanvas
+        const initAll = async () => {
 
-        if (!canvas) return
+            const { current: canvas } = reactCanvas
 
-        const engine = new Engine(
-            canvas,
-            antialias,
-            engineOptions,
-            adaptToDeviceRatio
-        )
-        const scene = new Scene(engine, sceneOptions)
-        if (scene.isReady()) {
-            onSceneReady(scene)
-        } else {
-            scene.onReadyObservable.addOnce((scene) => onSceneReady(scene))
-        }
+            if (!canvas) return
 
-        engine.runRenderLoop(() => {
-            if (typeof onRender === 'function') onRender(scene)
-            scene.render()
-        })
+            let engine: any;
+            engine = new Engine(canvas, false)
+            const scene = new Scene(engine, sceneOptions)
+            if (scene.isReady()) {
+                onSceneReady(scene)
+            } else {
+                scene.onReadyObservable.addOnce((scene) => onSceneReady(scene))
+            }
 
-        const resize = () => {
-            scene.getEngine().resize()
-        }
+            engine.runRenderLoop(() => {
+                if (typeof onRender === 'function') onRender(scene)
+                scene.render()
+            })
 
-        if (window) {
-            window.addEventListener('resize', resize)
-        }
-
-        return () => {
-            scene.getEngine().dispose()
+            const resize = () => {
+                scene.getEngine().resize()
+            }
 
             if (window) {
-                window.removeEventListener('resize', resize)
+                window.addEventListener('resize', resize)
             }
+
+            return () => {
+                scene.getEngine().dispose()
+
+                if (window) {
+                    window.removeEventListener('resize', resize)
+                }
+            }
+
         }
+        initAll();
     }, [
-        antialias,
-        engineOptions,
-        adaptToDeviceRatio,
-        sceneOptions,
-        onRender,
-        onSceneReady,
     ])
 
     return <canvas className="h-screen" ref={reactCanvas} {...rest} />

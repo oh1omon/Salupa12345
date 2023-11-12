@@ -102,7 +102,7 @@ const onRender = (scene: Scene) => {
         //const skybox = scene.getMeshByName('skyBox')
 
         if(back_mesh)
-        back_mesh.rotate(Vector3.Right(), Math.PI / 200)
+        back_mesh.rotate(Vector3.Right(), Math.PI / 400)
 
         // Check if the skybox mesh exists
         /*if (skybox) {

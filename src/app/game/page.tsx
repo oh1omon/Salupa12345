@@ -1,6 +1,6 @@
 'use client'
 
-import { Engine, Scene } from '@babylonjs/core'
+import { Engine, Scene, WebGPUEngine } from '@babylonjs/core'
 import { useEffect, useRef, useState } from 'react'
 import { SessionState } from '~/types/game'
 import ChatComponent from '../_components/ChatComponent'
@@ -31,39 +31,47 @@ const Game = () => {
 
     // set up basic engine and scene
     useEffect(() => {
-        const { current: canvas } = reactCanvas
+        const initAll = async () => {
 
-        if (!canvas) return
+            const { current: canvas } = reactCanvas
 
-        const engine = new Engine(canvas, true)
-        scene = new Scene(engine, undefined)
+            if (!canvas) return
 
-        if (scene.isReady()) {
-            void onSceneReady(scene)
-        } else {
-            scene.onReadyObservable.addOnce((scene) => void onSceneReady(scene))
-        }
+            let engine: any;
+            engine = new Engine(
+                canvas,
+                false
+            ) as Engine;
+            const scene = new Scene(engine)
+            if (scene.isReady()) {
+                onSceneReady(scene)
+            } else {
+                scene.onReadyObservable.addOnce((scene) => onSceneReady(scene))
+            }
 
-        engine.runRenderLoop(() => {
-            if (typeof onRender === 'function') onRender(scene)
-            scene.render()
-        })
+            engine.runRenderLoop(() => {
+                if (typeof onRender === 'function') onRender(scene)
+                scene.render()
+            })
 
-        const resize = () => {
-            scene.getEngine().resize()
-        }
-
-        if (window) {
-            window.addEventListener('resize', resize)
-        }
-
-        return () => {
-            scene.getEngine().dispose()
+            const resize = () => {
+                scene.getEngine().resize()
+            }
 
             if (window) {
-                window.removeEventListener('resize', resize)
+                window.addEventListener('resize', resize)
             }
+
+            return () => {
+                scene.getEngine().dispose()
+
+                if (window) {
+                    window.removeEventListener('resize', resize)
+                }
+            }
+
         }
+        initAll();
     }, [])
 
     const onResponderChange = (isAiAnswering: boolean) => {
