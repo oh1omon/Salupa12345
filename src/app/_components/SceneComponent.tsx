@@ -2,14 +2,14 @@ import { Engine, EngineOptions, Scene, SceneOptions } from '@babylonjs/core'
 import { useEffect, useRef } from 'react'
 
 interface BabylonSceneProps {
-    antialias?: boolean;
-    engineOptions?: EngineOptions;
-    adaptToDeviceRatio?: boolean;
-    sceneOptions?: SceneOptions;
-    onRender?: (scene: Scene) => void;
-    onSceneReady: (scene: Scene) => void;
+    antialias?: boolean
+    engineOptions?: EngineOptions
+    adaptToDeviceRatio?: boolean
+    sceneOptions?: SceneOptions
+    onRender?: (scene: Scene) => void
+    onSceneReady: (scene: Scene) => void
 }
- const SceneComponent = ({
+const SceneComponent = ({
     antialias,
     engineOptions,
     adaptToDeviceRatio,
@@ -34,7 +34,7 @@ interface BabylonSceneProps {
         )
         const scene = new Scene(engine, sceneOptions)
         if (scene.isReady()) {
-            onSceneReady(scene)
+            onSceneReady(scene, canvas)
         } else {
             scene.onReadyObservable.addOnce((scene) => onSceneReady(scene))
         }
@@ -68,6 +68,6 @@ interface BabylonSceneProps {
         onSceneReady,
     ])
 
-    return <canvas className="h-screen" ref={reactCanvas} {...rest} />
+    return <canvas ref={reactCanvas} {...rest} />
 }
 export default SceneComponent
