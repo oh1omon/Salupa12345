@@ -42,7 +42,7 @@ const Game = () => {
                 canvas,
                 false
             ) as Engine;
-            const scene = new Scene(engine)
+            scene = new Scene(engine)
             if (scene.isReady()) {
                 onSceneReady(scene)
             } else {
